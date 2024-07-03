@@ -1,0 +1,61 @@
+#include <iostream> // Added for standard C++ library support
+#include <string>
+#include <cstring>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <sys/ioctl.h>
+#include <net/if.h>
+#include <linux/can.h>
+#include <linux/can/raw.h>
+
+// Function to send a CAN message
+void sendCANMessage(int sock, uint32_t id, uint8_t *data, uint8_t len) {
+    struct can_frame frame;
+    frame.can_id = id;
+    frame.can_dlc = len;
+    memcpy(frame.data, data, len);
+    ssize_t ret = write(sock, &frame, sizeof(frame)); // Added return value check
+    if (ret < 0) {
+        perror("Write error");
+    }
+}
+
+int main() {
+    const char *ifname = "can0";
+    int sock;
+
+    // Create a CAN socket
+    if ((sock = socket(PF_CAN, SOCK_RAW, CAN_RAW)) < 0) {
+        perror("Socket creation error");
+        return 1;
+    }
+
+    // Bind the socket to the CAN interface
+    struct ifreq ifr;
+    strcpy(ifr.ifr_name, ifname);
+    if (ioctl(sock, SIOCGIFINDEX, &ifr) < 0) {
+        perror("ioctl error");
+        close(sock);
+        return 1;
+    }
+
+    struct sockaddr_can addr;
+    addr.can_family = AF_CAN;
+    addr.can_ifindex = ifr.ifr_ifindex;
+    if (bind(sock, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
+        perror("Bind error");
+        close(sock);
+        return 1;
+    }
+
+    // Prepare and send a CAN message
+    uint32_t id = 0x123;
+    uint8_t data[] = {0xAA, 0xBB};
+    sendCANMessage(sock, id, data, sizeof(data));
+
+    // Close the socket
+    close(sock);
+
+    return 0;
+}
+
