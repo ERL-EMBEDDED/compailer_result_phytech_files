@@ -1,5 +1,0 @@
-0000000000000000000000000000000000000000 b5b7363ee60c0b73e892c577823d6b13b20acddd root <root@ti-ThinkCentre-M720q.(none)> 1716900814 +0530	branch: Created from HEAD
-b5b7363ee60c0b73e892c577823d6b13b20acddd 77bf1362ef52c88d03d1e0a6625786c6bef19f0c root <root@ti-ThinkCentre-M720q.(none)> 1716900850 +0530	pull origin can_data: Fast-forward
-77bf1362ef52c88d03d1e0a6625786c6bef19f0c 14d844db0b7a717a1eb3ad620928a2e604146c8d Your Name <you@example.com> 1716903033 +0530	commit: Added the current working code which is running with ubuntu and phytec to send can data in two different threads
-14d844db0b7a717a1eb3ad620928a2e604146c8d f91761aa3bc87c571d0b0787e91459439d0ec945 Your Name <you@example.com> 1716958049 +0530	pull origin can_file_v1.0: Fast-forward
-f91761aa3bc87c571d0b0787e91459439d0ec945 bc48b405d77a13180a5b9646fa1eff3ef0c77405 Your Name <you@example.com> 1716964384 +0530	commit: serial code for can data read using phytech
